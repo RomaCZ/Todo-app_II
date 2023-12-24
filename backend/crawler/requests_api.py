@@ -10,7 +10,7 @@ from fake_useragent import UserAgent
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_TIMEOUT = 10 # seconds
+DEFAULT_TIMEOUT = 120 # seconds
 DEFAULT_RATE_LIMIT = 30 # max 30 requests per minute
 
 
@@ -19,7 +19,6 @@ class RequestsApi(requests.Session):
     
     def __init__(self, base_url: str,
                  timeout=DEFAULT_TIMEOUT,
-                 rate_limit=DEFAULT_RATE_LIMIT,
                  **kwargs: Any) -> None:
         """Initialize session and base URL.
         
@@ -28,13 +27,12 @@ class RequestsApi(requests.Session):
             kwargs: Additional keyword arguments passed to Session.
         """
         super().__init__()
-        self = sleep_and_retry(rate_limit, session=self)
+        #self = sleep_and_retry(rate_limit, session=self)
         self.session = CacheControl(self)
         self.base_url = base_url
         self.user_agent = UserAgent()
         self.timeout = timeout
-        self.rate_limit = rate_limit
-
+        
         # Set user agent on session
         self.headers["User-Agent"] = self.user_agent.random
 
@@ -60,14 +58,17 @@ class RequestsApi(requests.Session):
         stop=tenacity.stop_after_attempt(3),
         wait=tenacity.wait_exponential(multiplier=1, min=4, max=10), 
         )
+    @sleep_and_retry
+    @limits(calls=DEFAULT_RATE_LIMIT, period=60)
     def make_request(self, method: str, url: str, timeout=None, **kwargs: Any) -> requests.Response:
         """Construct and send a requests HTTP request."""
         url = self._build_url(url)
-        request = limits(calls=self.rate_limit, period=60)(super().request)
         if not timeout:
             timeout = self.timeout
+        logger.info(f"Making {method} request to {url}")
         try:
-            response = request(method, url, timeout=timeout, **kwargs)
+            response = super().request(method, url, timeout=timeout, **kwargs)
+            logger.info(f"Received {response.status_code} response from {url}")
             response.raise_for_status()
         except requests.RequestException as e:
             logger.error(f"Request failed: {e}")
@@ -181,3 +182,15 @@ class RequestsApi(requests.Session):
         headers = kwargs.pop("headers", {})
         headers["User-Agent"] = self.user_agent.random 
         return self.make_request("PATCH", url, headers=headers, data=data, **kwargs)
+
+
+
+if __name__ == "__main__":
+    client = RequestsApi('https://httpbin.org')
+    response = client.get('/get')
+    assert response.status_code == 200
+    print(response.json())
+
+
+
+    
