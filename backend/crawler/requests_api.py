@@ -1,11 +1,26 @@
-import requests
+import logging
 from typing import Dict, Any
+from urllib.parse import urljoin
+
+import requests
+import tenacity
+from cachecontrol import CacheControl
+from ratelimit import limits, sleep_and_retry
 from fake_useragent import UserAgent
+
+logger = logging.getLogger(__name__)
+
+DEFAULT_TIMEOUT = 10 # seconds
+DEFAULT_RATE_LIMIT = 30 # max 30 requests per minute
+
 
 class RequestsApi(requests.Session):
     """Client for making requests to an API."""
     
-    def __init__(self, base_url: str, **kwargs: Any) -> None:
+    def __init__(self, base_url: str,
+                 timeout=DEFAULT_TIMEOUT,
+                 rate_limit=DEFAULT_RATE_LIMIT,
+                 **kwargs: Any) -> None:
         """Initialize session and base URL.
         
         Args:
@@ -13,9 +28,12 @@ class RequestsApi(requests.Session):
             kwargs: Additional keyword arguments passed to Session.
         """
         super().__init__()
-        
+        self = sleep_and_retry(rate_limit, session=self)
+        self.session = CacheControl(self)
         self.base_url = base_url
         self.user_agent = UserAgent()
+        self.timeout = timeout
+        self.rate_limit = rate_limit
 
         # Set user agent on session
         self.headers["User-Agent"] = self.user_agent.random
@@ -24,7 +42,10 @@ class RequestsApi(requests.Session):
             if isinstance(kwargs[arg], dict):
                 kwargs[arg] = self._deep_merge(getattr(self, arg), kwargs[arg])
             setattr(self, arg, kwargs[arg])
-            
+
+    def _build_url(self, endpoint):
+        return urljoin(self.base_url, endpoint)
+
     def _deep_merge(self, source: Dict[str, Any], destination: Dict[str, Any]) -> Dict[str, Any]:
         """Merge source dict into destination dict recursively."""
         for key, value in source.items():
@@ -34,16 +55,23 @@ class RequestsApi(requests.Session):
             else:
                 destination[key] = value
         return destination
-            
-    def make_request(self, method: str, url: str, **kwargs: Any) -> requests.Response:
+    
+    @tenacity.retry(
+        stop=tenacity.stop_after_attempt(3),
+        wait=tenacity.wait_exponential(multiplier=1, min=4, max=10), 
+        )
+    def make_request(self, method: str, url: str, timeout=None, **kwargs: Any) -> requests.Response:
         """Construct and send a requests HTTP request."""
+        url = self._build_url(url)
+        request = limits(calls=self.rate_limit, period=60)(super().request)
+        if not timeout:
+            timeout = self.timeout
         try:
-            url = f"{self.base_url}{url}"
-            response = super().request(method, url, **kwargs)
+            response = request(method, url, timeout=timeout, **kwargs)
             response.raise_for_status()
         except requests.RequestException as e:
-            # Log error here 
-            raise e
+            logger.error(f"Request failed: {e}")
+            raise
         
         return response
 
