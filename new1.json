@@ -1,0 +1,63 @@
+{
+	"createdAt": "2023-12-18T12:01:19+01:00",
+	"createdBy": {
+		"email": "vladimira.zitkova01@kraj-lbc.cz",
+		"id": "b6f54904-63df-4738-9325-7ce88f9586ed",
+		"name": "VLADIMÍRA ZÍTKOVÁ"
+	},
+	"data": {
+		"datumOdeslaniTed": "2023-12-18T13:17:34+01:00",
+		"datumPrijetiVvz": "2023-12-18T13:12:25+01:00",
+		"datumUverejneniTed": "2023-12-22T09:00:00+01:00",
+		"datumUverejneniVvz": "2023-12-20T14:00:39+01:00",
+		"druhFormulare": "F02",
+		"evCisloTed": "2023/S 247-779685",
+		"evCisloZakazkyVvz": "Z2023-058305",
+		"lhutaNabidkyZadosti": "2024-01-25T10:00:00+01:00",
+		"lhutaUverejneniTed": "2023-12-20T14:00:00+01:00",
+		"lhutaUverejneniVvz": "2023-12-21T23:59:00+01:00",
+		"nazevZakazky": "Výstavba pavilonu učeben Gymnázia F. X. Šaldy, Liberec 11, Partyzánská 530, příspěvková organizace",
+		"souvisejiciFormSchemaId": "5a208f03-d409-43cf-a6fd-51b2579c485c",
+		"uverejnitTed": true,
+		"uverejnitVvz": true,
+		"uzivatelskyNazevFormulare": "F02 Oznámení o zahájení zadávacího řízení",
+		"verzeXsd": "R2.0.9.S05",
+		"zadavatele": [
+			{
+				"ico": "70891508",
+				"nazev": "Liberecký kraj"
+			}
+		],
+		"zakazkaZrusena": false,
+		"zdrojPodani": {
+			"id": "WEB-fgxvso",
+			"typ": "WEB",
+			"uzivatelVvzLogin": "fgxvso"
+		}
+	},
+	"formSchema": "/api/form_schemas/9c65adb0-e9be-4489-93fc-e4e1f1b526d1",
+	"id": "a7b78a6a-dd67-4646-b09b-670407858fec",
+	"organizationData": {
+		"addresses": null,
+		"attributes": null,
+		"contacts": null,
+		"description": null,
+		"id": "5d01949c-1bf9-4aaf-88fd-55e2d885399c",
+		"identifications": null,
+		"name": "Liberecký kraj"
+	},
+	"owner": {
+		"email": "vladimira.zitkova01@kraj-lbc.cz",
+		"id": "b6f54904-63df-4738-9325-7ce88f9586ed",
+		"name": "VLADIMÍRA ZÍTKOVÁ"
+	},
+	"publicId": "4XJKLQhMRMcMmNEI9fBkOPFNoePbUhz3",
+	"submissionVersion": "/api/submission_versions/ca6fdeb5-b263-4b6f-bd7c-4f1097089d92",
+	"updatedAt": "2023-12-22T09:01:37+01:00",
+	"updatedBy": {
+		"id": "b6dee6f2-1d53-44e4-80c6-63e85e545649",
+		"name": "vvz-uloziste-formularu-bridge"
+	},
+	"variableId": "F2023-058305",
+	"workflowPlaceCode": "UVEREJNENO_VVZ"
+}
