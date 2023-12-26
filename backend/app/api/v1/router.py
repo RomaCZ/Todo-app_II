@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from backend.app.api.v1.handlers import user, todo
+from backend.app.api.v1.handlers import user, todo, vvz
 from backend.app.api.v1.handlers.user import auth_backend, current_active_user, fastapi_users
 from backend.app.schemas.user import UserRead, UserCreate, UserUpdate
 
@@ -7,6 +7,7 @@ from backend.app.schemas.user import UserRead, UserCreate, UserUpdate
 router = APIRouter()
 
 router.include_router(todo.todo_router, prefix="/todo", tags=["todo"])
+router.include_router(vvz.vvz_router, prefix="/vvz", tags=["vvz"])
 
 
 router.include_router(

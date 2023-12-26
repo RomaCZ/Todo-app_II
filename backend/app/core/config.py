@@ -17,6 +17,9 @@ class Settings(BaseSettings):
     # Database
     MONGO_CONNECTION_STRING: str
 
+    # Logging
+    LOG_LEVEL: str
+
     model_config = SettingsConfigDict(env_file="backend\.env", case_sensitive=True, frozen=True)
 
 settings = Settings()

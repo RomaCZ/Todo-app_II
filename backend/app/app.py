@@ -8,7 +8,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 
 from backend.app.models.user import User
 from backend.app.models.todo import Todo
-from backend.app.models.vvz_search import VvzSearchResult
+from backend.app.models.vvz import SearchResult
 from backend.app.api.v1.router import router
 
 
@@ -23,7 +23,7 @@ async def app_init(app: FastAPI):
         document_models=[
             User,
             Todo,
-            VvzSearchResult,
+            SearchResult,
             ]
     )
     await les()
@@ -241,7 +241,7 @@ async def les():
 
 
 
-    todo = VvzSearchResult(**json_object[0])
+    todo = SearchResult(**json_object[0])
 
     try:
         await todo.insert()

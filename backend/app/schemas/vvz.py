@@ -3,12 +3,9 @@ from datetime import datetime
 from uuid import UUID
 
 class CreatedBy(BaseModel):
-    email: EmailStr 
+    email: EmailStr = None
     id: UUID
     name: str
-
-class UpdatedBy(CreatedBy):
-    email: EmailStr = None
 
 class ZdrojPodani(BaseModel):
     id: str
@@ -20,21 +17,21 @@ class Zadavatele(BaseModel):
     nazev: str
     
 class Data(BaseModel):
-    datumOdeslaniTed: datetime
+    datumOdeslaniTed: datetime = None
     datumPrijetiVvz: datetime
-    datumUverejneniTed: datetime 
+    datumUverejneniTed: datetime = None
     datumUverejneniVvz: datetime
     druhFormulare: str
-    evCisloTed: str
+    evCisloTed: str = None
     evCisloZakazkyVvz: str
-    lhutaNabidkyZadosti: datetime
-    lhutaUverejneniTed: datetime
+    lhutaNabidkyZadosti: datetime = None
+    lhutaUverejneniTed: datetime = None
     lhutaUverejneniVvz: datetime
     nazevZakazky: str
     souvisejiciFormSchemaId: UUID
     uverejnitTed: bool
     uverejnitVvz: bool
-    uzivatelskyNazevFormulare: str
+    uzivatelskyNazevFormulare: str = None
     verzeXsd: str
     zadavatele: list[Zadavatele]
     zakazkaZrusena: bool
@@ -49,7 +46,7 @@ class OrganizationData(BaseModel):
     identifications: dict | None
     name: str
 
-class Result(BaseModel):
+class SearchResultSchema(BaseModel):
     createdAt: datetime 
     createdBy: CreatedBy
     data: Data
@@ -60,6 +57,6 @@ class Result(BaseModel):
     publicId: str
     submissionVersion: str
     updatedAt: datetime
-    updatedBy: UpdatedBy
+    updatedBy: CreatedBy
     variableId: str
     workflowPlaceCode: str
