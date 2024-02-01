@@ -12,8 +12,8 @@ from ratelimit import limits, sleep_and_retry
 logger = logging.getLogger(__name__) 
 
 
-DEFAULT_TIMEOUT = 120  # seconds
-DEFAULT_RATE_LIMIT = 30  # max 30 requests per minute
+DEFAULT_TIMEOUT = 120  # Requests timeout in seconds
+DEFAULT_RATE_LIMIT = 5  # Max 5 requests 2 seconds
 
 
 class RequestsApi(requests.Session):
@@ -60,7 +60,7 @@ class RequestsApi(requests.Session):
         wait=tenacity.wait_exponential(multiplier=1, min=4, max=10),
     )
     @sleep_and_retry
-    @limits(calls=DEFAULT_RATE_LIMIT, period=60)
+    @limits(calls=DEFAULT_RATE_LIMIT, period=5)
     def make_request(
         self, method: str, url: str, timeout=None, **kwargs: Any
     ) -> requests.Response:

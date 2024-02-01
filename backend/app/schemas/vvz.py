@@ -3,7 +3,7 @@ from datetime import datetime
 from uuid import UUID
 
 class CreatedBy(BaseModel):
-    email: EmailStr = None
+    email: EmailStr | None = None
     id: UUID
     name: str
 
@@ -17,15 +17,15 @@ class Zadavatele(BaseModel):
     nazev: str
     
 class Data(BaseModel):
-    datumOdeslaniTed: datetime = None
+    datumOdeslaniTed: datetime | None= None
     datumPrijetiVvz: datetime
-    datumUverejneniTed: datetime = None
+    datumUverejneniTed: datetime | None = None
     datumUverejneniVvz: datetime
     druhFormulare: str
-    evCisloTed: str = None
+    evCisloTed: str | None = None
     evCisloZakazkyVvz: str
-    lhutaNabidkyZadosti: datetime = None
-    lhutaUverejneniTed: datetime = None
+    lhutaNabidkyZadosti: datetime | None = None
+    lhutaUverejneniTed: datetime | None = None
     lhutaUverejneniVvz: datetime
     nazevZakazky: str
     souvisejiciFormSchemaId: UUID
