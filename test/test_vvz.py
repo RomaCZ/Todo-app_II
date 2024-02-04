@@ -3,30 +3,59 @@ from datetime import date
 
 from backend.app.core.logger import logger
 from backend.crawler.vvz import VvzCrawler
+import jsonpath_ng.ext as jp
 
 
 class TestVvzCrawler(unittest.TestCase):
+    domain_prefix = "ref."
+
+    def setUp(self):
+        self.crawler = VvzCrawler(domain_prefix=self.domain_prefix)
+
     def test_get_search_results(self):
-        crawler = VvzCrawler()
-        query = {"date_from": date(2023, 12, 19), "date_to": date(2023, 12, 21)}
-        data = crawler.get_search_results(query, mock="get_search_results.json")
-        self.assertEqual(len(data), 3)
-    
-    def test_get_submission_attachments(self):
-        crawler = VvzCrawler()
-        submission_version = "/api/submission_versions/8f3edb74-19c7-49b0-b22b-293ba821e923"
-        submission = crawler.get_submission_attachments(submission_version, mock="get_submission_attachments.json") 
-        self.assertEqual(len(submission), 1)
+        query = {"date_from": date(2024, 1, 31), "date_to": date(2024, 2, 3)}
+        data = self.crawler.get_search_results(query, mock=True)
+        self.assertEqual(len(data), 14)
 
-    def test_get_content_public_url(self):
-        crawler = VvzCrawler()
-        content_public_url = "/download/submission_attachments/public/fUacTxNrULyBWJxM6P0IYMs5TCEj4T0g"
-        data = crawler.get_content_public_url(content_public_url, mock="get_content_public_url.xml")
-        self.assertEqual(len(data), 3340)
+    def test_get_form_submissions(self):
+        submissions = self.crawler.get_form_submissions(
+            form_vvz_id="Z2024-000163", mock=True
+        )
+        self.assertEqual(len(submissions), 3)
 
+    def test_get_form_detail(self):
+        form_detail = self.crawler.get_form_detail(
+            form_submission="1d408b25-02d2-4cea-82fb-be7689986cbe", mock=True
+        )
+        self.assertEqual(len(form_detail), 1)
 
+        jp_first = lambda query, data: jp.parse(query).find(data)[0].value
+        jp_all = lambda query, data: [
+            match.value for match in jp.parse(query).find(data)
+        ]
 
-        
+        self.assertEqual(
+            jp_first(
+                "$..ND-ProcedureProcurementScope..ND-ProcedureValueEstimate.._value",
+                form_detail,
+            ),
+            45_000_000,
+        )
+
+    def test_get_form_schema(self):
+        form_detail = self.crawler.get_form_schema(
+            form_schema="/api/form_schemas/d4831dca-2fa3-4a7c-9102-c4114083cad9",
+            mock=True,
+        )
+
+        jp_first = lambda query, data: jp.parse(query).find(data)[0].value
+        jp_all = lambda query, data: [
+            match.value for match in jp.parse(query).find(data)
+        ]
+
+        # prop_data = jp_first("$..propertyDetails", data)
+
+        self.assertEqual(jp_first("$..layout", form_detail), "111")
 
 
 if __name__ == "__main__":
