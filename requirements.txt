@@ -18,3 +18,4 @@ ratelimit==2.2.1
 pydantic-xml==2.7.0
 lxml==4.9.4
 pytest
+jsonpath-ng==1.6.1
