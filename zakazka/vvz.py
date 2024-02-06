@@ -3,7 +3,7 @@ import re
 from hashlib import md5
 from pathlib import Path, PurePath
 
-from pydantic import BaseModel, constr, validator
+from pydantic import BaseModel, constr, validator, model_validator
 import jsonpath_ng.ext as jp
 
 
@@ -34,23 +34,7 @@ class SchemaUuidModel(BaseModel):
         return uuid.split("/")[-1]
 
 
-class FileNameModel(BaseModel):
-    """
-    A Pydantic model for generating a file name based on a URL and parameters.
-
-    Attributes:
-        url (str): The URL to be used in the file name.
-        params (dict, optional): The parameters to be included in the file name.
-
-    Methods:
-        generate_file_name: A validator for the 'url' field that generates the file name.
-    """
-
-    url: str
-    params: dict = None
-
-    @validator("url")
-    def generate_file_name(cls, url, values):
+def generate_file_name(url, params):
         """
         Generates a file name based on the 'url' and 'params' fields.
 
@@ -64,11 +48,14 @@ class FileNameModel(BaseModel):
         Returns:
             str: The generated file name.
         """
-        params = values.get("params")
         trimmed_url = re.sub("^.", "", url)
-        params_string = json.dumps(params, sort_keys=True) if params else ""
+        #params_string = json.dumps(params, sort_keys=True) if params else ""
+        if params:
+            params_string = "_".join([f"{str(v)[:4]}" for k, v in params.items()])
+        else:
+            params_string = ""
         plain_part = re.sub("[/.]", "_", f"{trimmed_url}_{params_string}")
-        shortened_url = re.sub(r"(?u)[^-\w.]", "", plain_part)[:45]
+        shortened_url = re.sub(r"(?u)[^-\w.]", "", plain_part)[:75]
         hash_object = md5(plain_part.encode()).hexdigest()
         file_name = f"{shortened_url}_{hash_object[:10]}.json"
         return file_name
@@ -124,8 +111,9 @@ class VvzCrawler:
     def _mocked_get(self, url, params=None, headers=None, mock=None):
         file_name = mock
         if mock is True:
-            file_name_model = FileNameModel(url=url, params=params)
-            file_name = file_name_model.url
+            file_name = generate_file_name(url=url, params=params)
+            logger.info((url, params))
+            logger.info(file_name)
         if mock:
             data = self._load_mock_data(file_name=file_name)
             if data:

@@ -1,0 +1,912 @@
+[
+    {
+        "nazev": "ÈR",
+        "nuts_coment": "",
+        "nuts_kod": "CZ",
+        "nuts_parent": "ÈR",
+        "nuts_type": "NUTS2_oblast"
+    },
+    {
+        "nazev": "ÈR",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0",
+        "nuts_parent": "ÈR",
+        "nuts_type": "NUTS2_oblast"
+    },
+    {
+        "nazev": "Praha",
+        "nuts_coment": "",
+        "nuts_kod": "CZ01",
+        "nuts_parent": "ÈR",
+        "nuts_type": "NUTS2_oblast"
+    },
+    {
+        "nazev": "Hlavní mìsto Praha",
+        "nuts_coment": "duplikát",
+        "nuts_kod": "CZ010",
+        "nuts_parent": "Praha",
+        "nuts_type": "NUTS3_kraj"
+    },
+    {
+        "nazev": "Hlavní mìsto Praha",
+        "nuts_coment": "",
+        "nuts_kod": "CZ011",
+        "nuts_parent": "Praha",
+        "nuts_type": "NUTS3_kraj"
+    },
+    {
+        "nazev": "Praha 1",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0111",
+        "nuts_parent": "Hlavní mìsto Praha",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Praha 2",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0112",
+        "nuts_parent": "Hlavní mìsto Praha",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Praha 3",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0113",
+        "nuts_parent": "Hlavní mìsto Praha",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Praha 4",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0114",
+        "nuts_parent": "Hlavní mìsto Praha",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Praha 5",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0115",
+        "nuts_parent": "Hlavní mìsto Praha",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Praha 6",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0116",
+        "nuts_parent": "Hlavní mìsto Praha",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Praha 7",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0117",
+        "nuts_parent": "Hlavní mìsto Praha",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Praha 8",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0118",
+        "nuts_parent": "Hlavní mìsto Praha",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Praha 9",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0119",
+        "nuts_parent": "Hlavní mìsto Praha",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Praha 10",
+        "nuts_coment": "",
+        "nuts_kod": "CZ011A",
+        "nuts_parent": "Hlavní mìsto Praha",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Praha 11",
+        "nuts_coment": "",
+        "nuts_kod": "CZ011B",
+        "nuts_parent": "Hlavní mìsto Praha",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Praha 12",
+        "nuts_coment": "",
+        "nuts_kod": "CZ011C",
+        "nuts_parent": "Hlavní mìsto Praha",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Praha 13",
+        "nuts_coment": "",
+        "nuts_kod": "CZ011D",
+        "nuts_parent": "Hlavní mìsto Praha",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Praha 14",
+        "nuts_coment": "",
+        "nuts_kod": "CZ011E",
+        "nuts_parent": "Hlavní mìsto Praha",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Praha 15",
+        "nuts_coment": "",
+        "nuts_kod": "CZ011F",
+        "nuts_parent": "Hlavní mìsto Praha",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Praha 16",
+        "nuts_coment": "duplikát",
+        "nuts_kod": "CZ011F",
+        "nuts_parent": "Hlavní mìsto Praha",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Praha 17",
+        "nuts_coment": "duplikát",
+        "nuts_kod": "CZ011F",
+        "nuts_parent": "Hlavní mìsto Praha",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Praha 18",
+        "nuts_coment": "duplikát",
+        "nuts_kod": "CZ011F",
+        "nuts_parent": "Hlavní mìsto Praha",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Praha 19",
+        "nuts_coment": "duplikát",
+        "nuts_kod": "CZ011F",
+        "nuts_parent": "Hlavní mìsto Praha",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Praha 20",
+        "nuts_coment": "duplikát",
+        "nuts_kod": "CZ011F",
+        "nuts_parent": "Hlavní mìsto Praha",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Støední Èechy",
+        "nuts_coment": "",
+        "nuts_kod": "CZ02",
+        "nuts_parent": "ÈR",
+        "nuts_type": "NUTS2_oblast"
+    },
+    {
+        "nazev": "Støedoèeský kraj",
+        "nuts_coment": "duplikát",
+        "nuts_kod": "CZ020",
+        "nuts_parent": "Støední Èechy",
+        "nuts_type": "NUTS3_kraj"
+    },
+    {
+        "nazev": "Støedoèeský kraj",
+        "nuts_coment": "",
+        "nuts_kod": "CZ021",
+        "nuts_parent": "Støední Èechy",
+        "nuts_type": "NUTS3_kraj"
+    },
+    {
+        "nazev": "Benešov",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0211",
+        "nuts_parent": "Støedoèeský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Beroun",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0212",
+        "nuts_parent": "Støedoèeský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Kladno",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0213",
+        "nuts_parent": "Støedoèeský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Kolín",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0214",
+        "nuts_parent": "Støedoèeský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Kutná Hora",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0215",
+        "nuts_parent": "Støedoèeský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Mìlník",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0216",
+        "nuts_parent": "Støedoèeský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Mladá Boleslav",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0217",
+        "nuts_parent": "Støedoèeský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Nymburk",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0218",
+        "nuts_parent": "Støedoèeský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Praha-východ",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0219",
+        "nuts_parent": "Støedoèeský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Praha-západ",
+        "nuts_coment": "",
+        "nuts_kod": "CZ021A",
+        "nuts_parent": "Støedoèeský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Pøíbram",
+        "nuts_coment": "",
+        "nuts_kod": "CZ021B",
+        "nuts_parent": "Støedoèeský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Rakovník",
+        "nuts_coment": "",
+        "nuts_kod": "CZ021C",
+        "nuts_parent": "Støedoèeský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Jihozápad",
+        "nuts_coment": "",
+        "nuts_kod": "CZ03",
+        "nuts_parent": "ÈR",
+        "nuts_type": "NUTS2_oblast"
+    },
+    {
+        "nazev": "Jihoèeský kraj",
+        "nuts_coment": "",
+        "nuts_kod": "CZ031",
+        "nuts_parent": "Jihozápad",
+        "nuts_type": "NUTS3_kraj"
+    },
+    {
+        "nazev": "Èeské Budìjovice",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0311",
+        "nuts_parent": "Jihoèeský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Èeský Krumlov",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0312",
+        "nuts_parent": "Jihoèeský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Jindøichùv Hradec",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0313",
+        "nuts_parent": "Jihoèeský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Písek",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0314",
+        "nuts_parent": "Jihoèeský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Prachatice",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0315",
+        "nuts_parent": "Jihoèeský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Strakonice",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0316",
+        "nuts_parent": "Jihoèeský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Tábor",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0317",
+        "nuts_parent": "Jihoèeský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Plzeòský kraj",
+        "nuts_coment": "",
+        "nuts_kod": "CZ032",
+        "nuts_parent": "Jihozápad",
+        "nuts_type": "NUTS3_kraj"
+    },
+    {
+        "nazev": "Domažlice",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0321",
+        "nuts_parent": "Plzeòský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Klatovy",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0322",
+        "nuts_parent": "Plzeòský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Plzeò-mìsto",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0323",
+        "nuts_parent": "Plzeòský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Plzeò-jih",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0324",
+        "nuts_parent": "Plzeòský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Plzeò-sever",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0325",
+        "nuts_parent": "Plzeòský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Plzeò",
+        "nuts_coment": "duplikát",
+        "nuts_kod": "CZ0324",
+        "nuts_parent": "Plzeòský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Rokycany",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0326",
+        "nuts_parent": "Plzeòský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Tachov",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0327",
+        "nuts_parent": "Plzeòský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Severozápad",
+        "nuts_coment": "",
+        "nuts_kod": "CZ04",
+        "nuts_parent": "ÈR",
+        "nuts_type": "NUTS2_oblast"
+    },
+    {
+        "nazev": "Karlovarský kraj",
+        "nuts_coment": "",
+        "nuts_kod": "CZ041",
+        "nuts_parent": "Severozápad",
+        "nuts_type": "NUTS3_kraj"
+    },
+    {
+        "nazev": "Cheb",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0411",
+        "nuts_parent": "Karlovarský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Karlovy Vary",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0412",
+        "nuts_parent": "Karlovarský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Sokolov",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0413",
+        "nuts_parent": "Karlovarský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Ústecký kraj",
+        "nuts_coment": "",
+        "nuts_kod": "CZ042",
+        "nuts_parent": "Severozápad",
+        "nuts_type": "NUTS3_kraj"
+    },
+    {
+        "nazev": "Dìèín",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0421",
+        "nuts_parent": "Ústecký kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Chomutov",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0422",
+        "nuts_parent": "Ústecký kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Litomìøice",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0423",
+        "nuts_parent": "Ústecký kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Louny",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0424",
+        "nuts_parent": "Ústecký kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Most",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0425",
+        "nuts_parent": "Ústecký kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Teplice",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0426",
+        "nuts_parent": "Ústecký kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Ústí nad Labem",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0427",
+        "nuts_parent": "Ústecký kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Severovýchod",
+        "nuts_coment": "",
+        "nuts_kod": "CZ05",
+        "nuts_parent": "ÈR",
+        "nuts_type": "NUTS2_oblast"
+    },
+    {
+        "nazev": "Liberecký kraj",
+        "nuts_coment": "",
+        "nuts_kod": "CZ051",
+        "nuts_parent": "Severovýchod",
+        "nuts_type": "NUTS3_kraj"
+    },
+    {
+        "nazev": "Èeská Lípa",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0511",
+        "nuts_parent": "Liberecký kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Jablonec nad Nisou",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0512",
+        "nuts_parent": "Liberecký kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Liberec",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0513",
+        "nuts_parent": "Liberecký kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Semily",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0514",
+        "nuts_parent": "Liberecký kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Královéhradecký kraj",
+        "nuts_coment": "",
+        "nuts_kod": "CZ052",
+        "nuts_parent": "Severovýchod",
+        "nuts_type": "NUTS3_kraj"
+    },
+    {
+        "nazev": "Hradec Králové",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0521",
+        "nuts_parent": "Královéhradecký kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Jièín",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0522",
+        "nuts_parent": "Královéhradecký kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Náchod",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0523",
+        "nuts_parent": "Královéhradecký kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Rychnov nad Knìžnou",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0524",
+        "nuts_parent": "Královéhradecký kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Trutnov",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0525",
+        "nuts_parent": "Královéhradecký kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Pardubický kraj",
+        "nuts_coment": "",
+        "nuts_kod": "CZ053",
+        "nuts_parent": "Severovýchod",
+        "nuts_type": "NUTS3_kraj"
+    },
+    {
+        "nazev": "Chrudim",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0531",
+        "nuts_parent": "Pardubický kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Pardubice",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0532",
+        "nuts_parent": "Pardubický kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Svitavy",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0533",
+        "nuts_parent": "Pardubický kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Ústí nad Orlicí",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0534",
+        "nuts_parent": "Pardubický kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Pardubický kraj",
+        "nuts_coment": "",
+        "nuts_kod": "CZ06",
+        "nuts_parent": "Jihovýchod",
+        "nuts_type": "NUTS3_kraj"
+    },
+    {
+        "nazev": "Vysoèina",
+        "nuts_coment": "",
+        "nuts_kod": "CZ061",
+        "nuts_parent": "Jihovýchod",
+        "nuts_type": "NUTS3_kraj"
+    },
+    {
+        "nazev": "Havlíèkùv Brod",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0611",
+        "nuts_parent": "Vysoèina",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Jihlava",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0612",
+        "nuts_parent": "Vysoèina",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Pelhøimov",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0613",
+        "nuts_parent": "Vysoèina",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Tøebíè",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0614",
+        "nuts_parent": "Vysoèina",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Žïár nad Sázavou",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0615",
+        "nuts_parent": "Vysoèina",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Jihomoravský kraj",
+        "nuts_coment": "",
+        "nuts_kod": "CZ062",
+        "nuts_parent": "Jihovýchod",
+        "nuts_type": "NUTS3_kraj"
+    },
+    {
+        "nazev": "Blansko",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0621",
+        "nuts_parent": "Jihomoravský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Brno-mìsto",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0622",
+        "nuts_parent": "Jihomoravský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Brno-venkov",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0623",
+        "nuts_parent": "Jihomoravský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Brno",
+        "nuts_coment": "duplikát",
+        "nuts_kod": "CZ0623",
+        "nuts_parent": "Jihomoravský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Bøeclav",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0624",
+        "nuts_parent": "Jihomoravský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Hodonín",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0625",
+        "nuts_parent": "Jihomoravský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Vyškov",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0626",
+        "nuts_parent": "Jihomoravský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Znojmo",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0627",
+        "nuts_parent": "Jihomoravský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Vysoèina",
+        "nuts_coment": "od roku 2008",
+        "nuts_kod": "CZ063",
+        "nuts_parent": "Jihovýchod",
+        "nuts_type": "NUTS3_kraj"
+    },
+    {
+        "nazev": "Jihomoravský kraj",
+        "nuts_coment": "od roku 2008",
+        "nuts_kod": "CZ064",
+        "nuts_parent": "Jihovýchod",
+        "nuts_type": "NUTS3_kraj"
+    },
+    {
+        "nazev": "Støední Morava",
+        "nuts_coment": "",
+        "nuts_kod": "CZ07",
+        "nuts_parent": "ÈR",
+        "nuts_type": "NUTS2_oblast"
+    },
+    {
+        "nazev": "Olomoucký kraj",
+        "nuts_coment": "",
+        "nuts_kod": "CZ071",
+        "nuts_parent": "Støední Morava",
+        "nuts_type": "NUTS3_kraj"
+    },
+    {
+        "nazev": "Jeseník",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0711",
+        "nuts_parent": "Olomoucký kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Olomouc",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0712",
+        "nuts_parent": "Olomoucký kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Prostìjov",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0713",
+        "nuts_parent": "Olomoucký kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Pøerov",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0714",
+        "nuts_parent": "Olomoucký kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Šumperk",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0715",
+        "nuts_parent": "Olomoucký kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Zlínský kraj",
+        "nuts_coment": "",
+        "nuts_kod": "CZ072",
+        "nuts_parent": "Støední Morava",
+        "nuts_type": "NUTS3_kraj"
+    },
+    {
+        "nazev": "Kromìøíž",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0721",
+        "nuts_parent": "Zlínský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Uherské Hradištì",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0722",
+        "nuts_parent": "Zlínský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Vsetín",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0723",
+        "nuts_parent": "Zlínský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Zlín",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0724",
+        "nuts_parent": "Zlínský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Moravskoslezsko",
+        "nuts_coment": "",
+        "nuts_kod": "CZ08",
+        "nuts_parent": "ÈR",
+        "nuts_type": "NUTS2_oblast"
+    },
+    {
+        "nazev": "Moravskoslezský kraj",
+        "nuts_coment": "duplikát",
+        "nuts_kod": "CZ080",
+        "nuts_parent": "Moravskoslezsko",
+        "nuts_type": "NUTS3_kraj"
+    },
+    {
+        "nazev": "Moravskoslezský kraj",
+        "nuts_coment": "",
+        "nuts_kod": "CZ081",
+        "nuts_parent": "Moravskoslezsko",
+        "nuts_type": "NUTS3_kraj"
+    },
+    {
+        "nazev": "Bruntál",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0811",
+        "nuts_parent": "Moravskoslezský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Frýdek - Místek",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0812",
+        "nuts_parent": "Moravskoslezský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Frýdek-Místek",
+        "nuts_coment": "duplikát",
+        "nuts_kod": "CZ0812",
+        "nuts_parent": "Moravskoslezský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Karviná",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0813",
+        "nuts_parent": "Moravskoslezský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Nový Jièín",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0814",
+        "nuts_parent": "Moravskoslezský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Jièín",
+        "nuts_coment": "duplikát",
+        "nuts_kod": "CZ0814",
+        "nuts_parent": "Moravskoslezský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Opava",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0815",
+        "nuts_parent": "Moravskoslezský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Ostrava - mìsto",
+        "nuts_coment": "",
+        "nuts_kod": "CZ0816",
+        "nuts_parent": "Moravskoslezský kraj",
+        "nuts_type": "NUTS4_okres"
+    },
+    {
+        "nazev": "Ostrava",
+        "nuts_coment": "duplikát",
+        "nuts_kod": "CZ0816",
+        "nuts_parent": "Moravskoslezský kraj",
+        "nuts_type": "NUTS4_okres"
+    }
+]
