@@ -344,6 +344,22 @@ function make_right_panel_clickable() {
 		})
 	}
 
+function remove_comment() {
+
+	function remove() {
+		var element_node = this.parentNode.getElementsByClassName("hodnota komentar")[0];
+		element_node.innerHTML = "neuvedeno"
+		}
+
+	var zakazky = document.getElementById("left_panel").getElementsByClassName("hodnota komentar");
+	var button = document.createElement("button");
+	button.appendChild(document.createTextNode("\u270E"));
+	for (var i=0, i_max=zakazky.length; i<i_max; i=i+1) {
+		zakazky[i].parentNode.insertBefore(button.cloneNode(true), zakazky[i])
+			.addEventListener("click", remove);
+		}
+	}
+
 function date2pretty_date() {
 
 	function pretty_date() {
@@ -431,6 +447,7 @@ function rizeni2listbox() {
 function on_load() {
 	random_ID();
 	date2pretty_date();
+	remove_comment();
 	kraje2listbox();
 	make_clickable();
 	make_right_panel_clickable()

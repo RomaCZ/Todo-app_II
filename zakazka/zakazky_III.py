@@ -86,12 +86,56 @@ class ParseZadavatel:
     def __init__(self, zakazka):
         self.zakazka = zakazka
     def step_a(self):
-        return self.zakazka["data"]["ND-Root"]
-
         
-    def step_b(self, element):
-        element = element["ND-RootExtension"]["ND-Organizations"]["ND-Organization"][0]
-        return element["ND-Company"]["BT-500-Organization-Company"]
+        element = self.zakazka["data"]["ND-Root"]
+        
+        #"ORG-0002"
+        #"ORG-0003"
+        poradi = element["ND-ContractingParty"][0]["ND-ServiceProvider"]["OPT-300-Procedure-Buyer"]
+        
+        #poradi = int(poradi.split("-")[1])-1
+                 
+
+        return (element, poradi)
+        
+    def step_b(self, acko):
+        element, poradi = acko
+        organizations = element["ND-RootExtension"]["ND-Organizations"]["ND-Organization"]
+        for organization in organizations:
+            if organization["ND-Company"]["OPT-200-Organization-Company"] == poradi:
+                return organization["ND-Company"]["BT-500-Organization-Company"]
+    def step_c(self, element):
+        return element
+
+@debug_decorator()
+class ParseNezpracovaneZmeny:
+    """ vrátí string Nezpracovane Zmeny """
+    def __init__(self, zakazka):
+        self.zakazka = zakazka
+    def step_a(self):
+        try:
+            element = self.zakazka["data"]["ND-Root"]["ND-RootExtension"]["ND-Changes"]["ND-Change"]
+        except KeyError:
+            element = [{}]
+        
+        return element
+        
+    def step_b(self, elements):
+        value = ''
+        for element in elements:
+            for key in element.keys():
+                if isinstance(element[key], str):
+                    element[key] = element[key].replace("Původní ", "<br/><br/><b>Původní</b> ").replace("Aktuální ", "<br/><b>Aktuální</b> ")
+                    element[key] = element[key].replace("Změna ", "<br/><br/><b style='color:red;'>Změna</b> ")
+                    element[key] = element[key].replace("<br/><br/><br/><br/>", "<br/><br/>")
+
+                    
+                if not isinstance(element[key], bool):
+                    if not isinstance(element[key], list):
+                        value += f"{element[key]}<br/>"
+        if not value:
+            return "nic"
+        return value
     def step_c(self, element):
         return element
 
@@ -143,15 +187,17 @@ class ParseDatumUverejneni:
     def __init__(self, zakazka):
         self.zakazka = zakazka
     def step_a(self):
-        return self.zakazka["data"]["ND-Root"]
+        createdAt = self.zakazka["createdAt"]
+        updatedAt = self.zakazka.get("updatedAt", createdAt)  # nevím jestli takto musím, možná má i nová zakaázka updatedat?
+
+        return max(datetime.fromisoformat(createdAt), datetime.fromisoformat(updatedAt))
+
     def step_b(self, element):
-        #"2024-02-06+01:00"  
-        return element["BT-05(a)-notice"]
+        #"2024-02-07T14:01:00+01:00"  
+        return element
 
     def step_c(self, element):
-        date = element.split("+")[0]
-        parsed_date = datetime.fromisoformat(date)
-        date_only = parsed_date.date()
+        date_only = element.date()
         euro_date = date_only.strftime('%d/%m/%Y')
 
 
@@ -214,11 +260,16 @@ class ParseNazev:
     def __init__(self, zakazka):
         self.zakazka = zakazka
     def step_a(self):
-        return self.zakazka["data"]["ND-Root"]["ND-Lot"][0]
-        
+        element =  self.zakazka["data"]["ND-Root"]
+        try:
+            return element["ND-ProcedureProcurementScope"]["BT-21-Procedure"]
+        except KeyError:
+            return element["ND-Lot"][0]["ND-LotProcurementScope"]["BT-21-Lot"]
+
+            
     def step_b(self, element):
         
-        return element["ND-LotProcurementScope"]["BT-21-Lot"]
+        return element
     def step_c(self, element):
         return element
 
@@ -268,8 +319,12 @@ class ParseLhutaNabidky:
         element = self.zakazka["data"]["ND-Root"]["ND-Lot"][0]["ND-LotTenderingProcess"]
         if "ND-PublicOpening" in element.keys():
             return element["ND-PublicOpening"]["BT-132(d)-Lot"]
-        else:
+        elif "ND-SubmissionDeadline" in element.keys():
             return element["ND-SubmissionDeadline"]["BT-131(d)-Lot"]
+        else:
+            return element["ND-ParticipationRequestPeriod"]["BT-1311(d)-Lot"]
+        
+        
     def step_b(self, date):
         parsed_date = datetime.strptime(date.split("+")[0], '%Y-%m-%d')
         return parsed_date.date()
@@ -357,6 +412,12 @@ def vvz_zakazka2dict(zakazka, zakazka_vyhledavani):
     
     zakazka_dict["predp_hodnota_popis"] = "neuvedeno"
     
+
+    zakazka_dict["nezpracovano"] = ParseNezpracovaneZmeny(zakazka, debug_container)
+    print("nezpracovano: ", zakazka_dict["nezpracovano"], file=debug_file)
+    
+    
+
     
     zakazka_dict["obec"] = ParseKodNuts(zakazka, debug_container)
     print("obec: ", zakazka_dict["obec"], file=debug_file)
@@ -374,7 +435,7 @@ def vvz_zakazka2dict(zakazka, zakazka_vyhledavani):
         zakazka_dict["datum_uverejneni"] = f'{zakazka_dict["datum_uverejneni"]} (uveřejnění po provedeném vyhledávání)'
 
     
-    zakazka_dict["evidencni_cislo"] = zakazka_vyhledavani["variableId"]
+    zakazka_dict["evidencni_cislo"] = zakazka_vyhledavani["data"]["evCisloZakazkyVvz"]
     print("evidencni_cislo: ", zakazka_dict["evidencni_cislo"], file=debug_file)
     
     zakazka_dict["typ_formulare"] = 'řádný' if not zakazka_vyhledavani["data"]["formularOpravuje"] else 'opravný'
@@ -492,8 +553,8 @@ def vvz_zakazka2dict(zakazka, zakazka_vyhledavani):
 
 
 def main():
-    user_date_from = datetime.strptime("31.01.2024", "%d.%m.%Y").date()
-    user_date_to = datetime.strptime("06.02.2024", "%d.%m.%Y").date()
+    user_date_from = datetime.strptime("12.03.2024", "%d.%m.%Y").date()
+    user_date_to = datetime.strptime("14.03.2024", "%d.%m.%Y").date()
     # user_date_to = user_date_from + timdelta(days=1)
 
     crawler = VvzCrawler()
@@ -514,8 +575,10 @@ def main():
         "date_to": user_date_to + timedelta(days=1),
         "druh_vz": "SLUZBY",
     }
-    zakazky_list += crawler.get_search_results(query, mock=False)
-
+    sluzby = crawler.get_search_results(query, mock=False)
+    for sluzba in sluzby:
+        sluzba["from_sluzby"] = True
+        zakazky_list.append(sluzba)
     print(len(zakazky_list))
 
     if user_date_from == user_date_to:
@@ -540,9 +603,35 @@ def main():
             #continue
             pass
 
-        if not zakazka["data"]["evCisloZakazkyVvz"] == "Z2024-005860":
+        if not zakazka["data"]["evCisloZakazkyVvz"] == "Z2024-002021":
             #continue
             pass
+        
+        # chybne zadavatele
+        if not zakazka["data"]["evCisloZakazkyVvz"] in ["Z2023-043251", "Z2024-006687"]:
+            #continue
+            pass
+
+        # zakazky s chybnymi lhutami pro nabidky
+        if not zakazka["data"]["evCisloZakazkyVvz"] in ["Z2024-006889", "Z2024-006885"]:
+            #continue
+            pass
+
+        # zakazky s ND-root
+        if not zakazka["data"]["evCisloZakazkyVvz"] in ["Z2024-007209"]:
+            #continue
+            pass
+        
+
+        # zakazky s chybnou opravou
+        if not zakazka["data"]["evCisloZakazkyVvz"] in ["Z2023-058929"]:
+            #continue
+            pass
+        
+        if not zakazka["data"]["evCisloZakazkyVvz"] in ["Z2023-038652", "Z2024-007513"]:
+            #continue
+            pass
+        
 
 
 
@@ -575,6 +664,47 @@ def main():
             continue
         if zakazka_dict.get("druh_formulare", "").startswith("Oznámení o změně závazku ze smlouvy"):
             continue
+
+
+        if zakazka_dict['lhuta_pro_nabidky']:
+            if (datetime.strptime(zakazka_dict['lhuta_pro_nabidky'], '%d/%m/%Y') - datetime.strptime(zakazka_dict['datum_uverejneni'], '%d/%m/%Y')) <= timedelta(days=7):
+
+                zakazka_dict['komentar'] = '<b>Patrně chyba lhůty pro nabídky!</b>'
+
+
+
+        print("*" * 10)
+        print(user_date_from)
+        print(datetime.strptime(zakazka_dict['datum_uverejneni'], '%d/%m/%Y').date())
+        if datetime.strptime(zakazka_dict['datum_uverejneni'], '%d/%m/%Y').date() == user_date_from:
+            zakazka_dict["datum_uverejneni"] = f'{zakazka_dict["datum_uverejneni"]} (uveřejnění po provedeném vyhledávání)'
+    
+
+
+
+        if zakazka_dict["nezpracovano"] == "nic":
+            zakazka_dict["nezpracovano"] = ""
+        if zakazka_dict["nezpracovano"]:
+            if zakazka_dict['komentar'] == 'Neuvedeno':
+                zakazka_dict['komentar'] = ''
+            zakazka_dict['komentar'] += zakazka_dict["nezpracovano"]
+
+
+        if zakazka.get("from_sluzby", False):
+            zakazka_dict["misto_zakazky_nuts_parsed"] = "PROJEKTOVÉ PRÁCE"
+            zachovat = False
+            for vyzadane_slovo in vyzadane_projektovky:
+                if not zakazka_dict.get("nazev_vz", None): 
+                    zachovat = True
+                elif not zachovat and vyzadane_slovo.lower() in zakazka_dict.get("nazev_vz", "nazev_vz").lower():
+                    zachovat = True
+            if not zachovat:
+                continue
+            else:
+                left_panel.append(zakazka_dict2html(zakazka_dict))
+        
+        
+
 
 
         if zakazka_dict['hodnota']:

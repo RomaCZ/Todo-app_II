@@ -156,7 +156,7 @@ class VvzCrawler:
             "form": "vz",
             "workflowPlace": "UVEREJNENO_VVZ",
             "data.datumUverejneniVvz[gte]": query["date_from"].strftime(
-                "%Y-%m-%dT17:30:00+01:00"
+                "%Y-%m-%dT19:30:00+01:00"
             ),
             "data.datumUverejneniVvz[lte]": query["date_to"].strftime(
                 "%Y-%m-%dT00:00:00+01:00"
