@@ -553,8 +553,8 @@ def vvz_zakazka2dict(zakazka, zakazka_vyhledavani):
 
 
 def main():
-    user_date_from = datetime.strptime("12.03.2024", "%d.%m.%Y").date()
-    user_date_to = datetime.strptime("14.03.2024", "%d.%m.%Y").date()
+    user_date_from = datetime.strptime("17.04.2024", "%d.%m.%Y").date()
+    user_date_to = datetime.strptime("19.04.2024", "%d.%m.%Y").date()
     # user_date_to = user_date_from + timdelta(days=1)
 
     crawler = VvzCrawler()
