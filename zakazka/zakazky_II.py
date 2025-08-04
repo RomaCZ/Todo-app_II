@@ -1,18 +1,18 @@
 from bs4 import BeautifulSoup
-from nuts import parse_nuts
+from .nuts import parse_nuts
 #from geturl import geturl
-from geturl_II import geturl
-from bs_clean import clean_html
-from vestnik2url import vestnik2zakazky_list, zakazka_detail, Zakazka
-from old_zakazky import old_zakazka2dict
+from .geturl_II import geturl
+from .bs_clean import clean_html
+from .vestnik2url import vestnik2zakazky_list, zakazka_detail, Zakazka
+from .old_zakazky import old_zakazka2dict
 import re
 from functools import wraps
 
-from utility import BeautifulSoupMakeTag
-from utility import debug_decorator
+from .utility import BeautifulSoupMakeTag
+from .utility import debug_decorator
 from datetime import datetime, timedelta
 
-from zakazky_II_html import make_html, zakazka_dict2html
+from .zakazky_II_html import make_html, zakazka_dict2html
 
 import requests
 import json

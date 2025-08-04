@@ -3,21 +3,21 @@ collections.Callable = collections.abc.Callable
 
 
 from bs4 import BeautifulSoup
-from nuts import parse_nuts
+from .nuts import parse_nuts
 
 # from geturl import geturl
-from geturl_II import geturl
-from bs_clean import clean_html
-from vestnik2url import vestnik2zakazky_list, zakazka_detail, Zakazka
-from old_zakazky import old_zakazka2dict
+from .geturl_II import geturl
+from .bs_clean import clean_html
+from .vestnik2url import vestnik2zakazky_list, zakazka_detail, Zakazka
+from .old_zakazky import old_zakazka2dict
 import re
 from functools import wraps
 
-from utility import BeautifulSoupMakeTag
-from utility import debug_decorator
+from .utility import BeautifulSoupMakeTag
+from .utility import debug_decorator
 from datetime import datetime, timedelta
 
-from zakazky_II_html import make_html, zakazka_dict2html
+from .zakazky_II_html import make_html, zakazka_dict2html
 
 import requests
 import json
@@ -37,7 +37,7 @@ import sys
 from devtools import debug as pprint
 
 
-from vvz import VvzCrawler
+from .vvz import VvzCrawler
 
 
 bs_new = BeautifulSoupMakeTag().new_tag
@@ -346,7 +346,7 @@ class ParseCena:
         
         def value2float(value):
             cena = re.sub("( )+", "", value)
-            cena = re.sub("[\.,]", ".", cena.strip())
+            cena = re.sub(r"[\.,]", ".", cena.strip())
             return float(cena)
         self.value2float = value2float
         

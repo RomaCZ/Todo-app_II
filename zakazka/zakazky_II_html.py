@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from utility import BeautifulSoupMakeTag
+from .utility import BeautifulSoupMakeTag
 
 
 

@@ -1,8 +1,8 @@
-﻿from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup
 from functools import wraps
-from geturl_II import geturl
-from utility import BeautifulSoupMakeTag
-from utility import debug_decorator
+from .geturl_II import geturl
+from .utility import BeautifulSoupMakeTag
+from .utility import debug_decorator
 
 
 

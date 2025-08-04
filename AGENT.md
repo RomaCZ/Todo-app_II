@@ -1,22 +1,25 @@
 # Agent Configuration
 
 ## Build/Test Commands
+- **Run server**: `python run.py` or `uvicorn app.main:app --reload`
+- **Install deps**: `pip install -r requirements-new.txt`
 - **Run tests**: `pytest` or `python -m unittest discover test/`
 - **Single test**: `pytest test/test_vvz.py` or `python test/test_vvz.py`
-- **Backend server**: `uvicorn backend.app.app:app --reload` (from root directory)
-- **Install deps**: `pip install -r requirements.txt`
+- **Database migration**: `alembic upgrade head`
 
 ## Architecture
-- **Backend**: FastAPI with Beanie ODM for MongoDB
-- **Database**: MongoDB with collections: users, todos, search_results
-- **Models**: User (BeanieBaseUser), Todo (with UUID, owner links), SearchResult (VVZ data)
-- **API**: RESTful at `/api/v1/` with authentication
-- **Config**: Environment-based settings in `backend/.env`
+- **Backend**: FastAPI with SQLModel and PostgreSQL
+- **Database**: PostgreSQL with contracts table
+- **Models**: Contract (SQLModel) with external_id, publication dates, processing status
+- **API**: RESTful at `/api/v1/` (contracts, crawler endpoints)
+- **Frontend**: Static HTML dashboard at `/static/index.html`
+- **Crawler**: Background scheduler + manual triggers, uses zakazka/vvz.py
+- **Config**: Environment-based settings in `.env`
 
 ## Code Style
 - **Imports**: Group stdlib, third-party, local modules separately
-- **Types**: Use Pydantic models and type hints throughout
-- **Models**: Beanie Document classes with UUID fields and Links for relationships
-- **Async**: Use async/await for database operations
+- **Types**: Use SQLModel and type hints throughout
+- **Models**: SQLModel classes with optional primary keys and timestamps
+- **Async**: Use async/await for database and HTTP operations
 - **Naming**: snake_case for variables/functions, PascalCase for classes
 - **Environment**: Use pydantic_settings for configuration management

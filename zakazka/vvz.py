@@ -7,7 +7,7 @@ from pydantic import BaseModel, constr, validator, model_validator
 import jsonpath_ng.ext as jp
 
 
-from requests_api import RequestsApi
+from .requests_api import RequestsApi
 
 import logging
 

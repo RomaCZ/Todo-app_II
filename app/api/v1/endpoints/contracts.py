@@ -1,0 +1,99 @@
+from datetime import date
+from typing import List, Optional
+from fastapi import APIRouter, Depends, HTTPException, Query
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlmodel import select
+
+from app.core.database import get_session
+from app.models.contract import Contract, ContractRead, ContractUpdate
+
+router = APIRouter()
+
+
+@router.get("/", response_model=List[ContractRead])
+async def get_contracts(
+    skip: int = Query(0, ge=0),
+    limit: int = Query(100, ge=1, le=1000),
+    date_from: Optional[date] = None,
+    date_to: Optional[date] = None,
+    contract_type: Optional[str] = Query(None, regex="^(PRACE|SLUZBY)$"),
+    processed: Optional[bool] = None,
+    session: AsyncSession = Depends(get_session)
+):
+    """Get contracts with filtering"""
+    query = select(Contract)
+    
+    if date_from:
+        query = query.where(Contract.publication_date >= date_from)
+    if date_to:
+        query = query.where(Contract.publication_date <= date_to)
+    if contract_type:
+        query = query.where(Contract.contract_type == contract_type)
+    if processed is not None:
+        query = query.where(Contract.processed == processed)
+    
+    query = query.order_by(Contract.publication_date.desc()).offset(skip).limit(limit)
+    
+    result = await session.execute(query)
+    return result.scalars().all()
+
+
+@router.get("/{contract_id}", response_model=ContractRead)
+async def get_contract(
+    contract_id: int,
+    session: AsyncSession = Depends(get_session)
+):
+    """Get a specific contract"""
+    result = await session.get(Contract, contract_id)
+    if not result:
+        raise HTTPException(status_code=404, detail="Contract not found")
+    return result
+
+
+@router.patch("/{contract_id}", response_model=ContractRead)
+async def update_contract(
+    contract_id: int,
+    contract_update: ContractUpdate,
+    session: AsyncSession = Depends(get_session)
+):
+    """Update contract (e.g., mark as processed)"""
+    contract = await session.get(Contract, contract_id)
+    if not contract:
+        raise HTTPException(status_code=404, detail="Contract not found")
+    
+    contract.processed = contract_update.processed
+    session.add(contract)
+    await session.commit()
+    await session.refresh(contract)
+    
+    return contract
+
+
+@router.get("/stats/summary")
+async def get_contract_stats(
+    session: AsyncSession = Depends(get_session)
+):
+    """Get contract statistics"""
+    total_query = select(Contract)
+    total_result = await session.execute(total_query)
+    total_contracts = len(total_result.scalars().all())
+    
+    processed_query = select(Contract).where(Contract.processed == True)
+    processed_result = await session.execute(processed_query)
+    processed_contracts = len(processed_result.scalars().all())
+    
+    prace_query = select(Contract).where(Contract.contract_type == "PRACE")
+    prace_result = await session.execute(prace_query)
+    prace_contracts = len(prace_result.scalars().all())
+    
+    sluzby_query = select(Contract).where(Contract.contract_type == "SLUZBY")
+    sluzby_result = await session.execute(sluzby_query)
+    sluzby_contracts = len(sluzby_result.scalars().all())
+    
+    return {
+        "total_contracts": total_contracts,
+        "processed_contracts": processed_contracts,
+        "unprocessed_contracts": total_contracts - processed_contracts,
+        "prace_contracts": prace_contracts,
+        "sluzby_contracts": sluzby_contracts
+    }

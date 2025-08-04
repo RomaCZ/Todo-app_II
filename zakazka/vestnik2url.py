@@ -1,6 +1,6 @@
 from datetime import date, datetime
 from bs4 import BeautifulSoup
-from geturl_II import geturl
+from .geturl_II import geturl
 import urllib.parse as urllib
 import re
 import time
