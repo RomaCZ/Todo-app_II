@@ -1,4 +1,4 @@
-beanie==1.23.6
+beanie==1.25.0
 beanie_batteries_queue==0.4.0
 fastapi==0.104.1
 fastapi-users[beanie]==12.1.2

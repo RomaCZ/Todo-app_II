@@ -91,8 +91,15 @@ class ParseZadavatel:
         
         #"ORG-0002"
         #"ORG-0003"
-        poradi = element["ND-ContractingParty"][0]["ND-ServiceProvider"]["OPT-300-Procedure-Buyer"]
-        
+
+        try:
+            poradi = element["ND-ContractingParty"][0]["ND-Buyer"]["OPT-300-Procedure-Buyer"]
+            # id="ND-Root.ND-ContractingParty.1.ND-Buyer.OPT-300-Procedure-Buyer"
+        except KeyError:
+            poradi = element["ND-ContractingParty"][0]["ND-ServiceProvider"]["OPT-300-Procedure-Buyer"]
+            # id="ND-Root.ND-ContractingParty.0.ND-ServiceProvider.OPT-300-Procedure-Buyer"
+
+                
         #poradi = int(poradi.split("-")[1])-1
                  
 
@@ -506,7 +513,10 @@ def vvz_zakazka2dict(zakazka, zakazka_vyhledavani):
         "CZ02": "Oznámení o zahájení podlimitního zadávacího řízení",
         "CZ03": "Oznámení o výsledku podlimitního zadávacího řízení",
         "CZ04": "Oprava národního formuláře",
-        "CZ07": "Oznámení o zahájení nabídkového řízení pro výběr dopravce k uzavření smlouvy o veřejných službách v přepravě cestujících",}
+        "CZ07": "Oznámení o zahájení nabídkového řízení pro výběr dopravce k uzavření smlouvy o veřejných službách v přepravě cestujících",
+        "E1": "Předběžná tržní konzultace",
+        "E6": "Oznámení o změně závazku ze smlouvy – veřejná zakázka v oblasti obrany nebo bezpečnosti",
+    }
                     
     
     zakazka_dict["druh_formulare"] = druh_formulare_translate[zakazka_vyhledavani["data"]["druhFormulare"]]
@@ -553,14 +563,15 @@ def vvz_zakazka2dict(zakazka, zakazka_vyhledavani):
 
 
 def main():
-    user_date_from = datetime.strptime("17.04.2024", "%d.%m.%Y").date()
-    user_date_to = datetime.strptime("19.04.2024", "%d.%m.%Y").date()
+    user_date_from = datetime.strptime("03.08.2025", "%d.%m.%Y").date()
+    user_date_to = datetime.strptime("05.08.2025", "%d.%m.%Y").date()
     # user_date_to = user_date_from + timdelta(days=1)
 
     crawler = VvzCrawler()
 
     processed_zakazky_list = []
     zakazky_list = []
+    
 
     # aktuální datum
     query = {
@@ -632,7 +643,12 @@ def main():
             #continue
             pass
         
-
+        
+        # zakazky s zadavatel po 24.04.2025
+        if not zakazka["data"]["evCisloZakazkyVvz"] in ["Z2025-016517"]:
+            # continue
+            pass
+        
 
 
         # print(zakazka)

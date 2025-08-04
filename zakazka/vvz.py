@@ -154,6 +154,7 @@ class VvzCrawler:
             "page": "1",
             "limit": page_limit,
             "form": "vz",
+            "formGroup": "vz",
             "workflowPlace": "UVEREJNENO_VVZ",
             "data.datumUverejneniVvz[gte]": query["date_from"].strftime(
                 "%Y-%m-%dT19:30:00+01:00"
@@ -210,6 +211,7 @@ class VvzCrawler:
             "page": 1,
             "limit": 200,
             "form": "vz",
+            "formGroup": "vz",
             "data.evCisloZakazkyVvz": form_vvz_id,
             "order[data.datumUverejneniVvz]": "DESC",
             "order[createdAt]": "DESC",
