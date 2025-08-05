@@ -157,6 +157,10 @@
                 <label>&nbsp;</label>
                 <button onclick="manualCrawl()">Manual Crawl</button>
             </div>
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button onclick="clearAllContracts()" style="background-color: #dc3545;">Clear All Data</button>
+            </div>
         </div>
 
         <div class="stats" id="stats">
@@ -332,6 +336,28 @@
             } catch (error) {
                 console.error('Error starting manual crawl:', error);
                 alert('Error starting manual crawl');
+            }
+        }
+
+        async function clearAllContracts() {
+            if (!confirm('Are you sure you want to delete ALL contracts? This cannot be undone!')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/contracts/clear-all`, {
+                    method: 'DELETE'
+                });
+
+                const result = await response.json();
+                alert(result.message);
+                
+                // Reload data immediately
+                loadStats();
+                loadContracts();
+            } catch (error) {
+                console.error('Error clearing contracts:', error);
+                alert('Error clearing contracts');
             }
         }
     </script>

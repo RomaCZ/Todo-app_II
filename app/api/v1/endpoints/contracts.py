@@ -1,3 +1,4 @@
+import logging
 from datetime import date
 from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query
@@ -6,6 +7,8 @@ from sqlmodel import select
 
 from app.core.database import get_session
 from app.models.contract import Contract, ContractRead, ContractUpdate
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
@@ -35,7 +38,14 @@ async def get_contracts(
     query = query.order_by(Contract.publication_date.desc()).offset(skip).limit(limit)
     
     result = await session.execute(query)
-    return result.scalars().all()
+    contracts = result.scalars().all()
+    
+    # Debug logging
+    logger.info(f"Query returned {len(contracts)} contracts")
+    if len(contracts) > 0:
+        logger.info(f"First contract date: {contracts[0].publication_date}")
+    
+    return contracts
 
 
 @router.get("/{contract_id}", response_model=ContractRead)
@@ -67,6 +77,42 @@ async def update_contract(
     await session.refresh(contract)
     
     return contract
+
+
+@router.get("/debug/all")
+async def get_all_contracts_debug(session: AsyncSession = Depends(get_session)):
+    """Debug endpoint to see all contracts in database"""
+    query = select(Contract).order_by(Contract.created_at.desc()).limit(20)
+    result = await session.execute(query)
+    contracts = result.scalars().all()
+    
+    return {
+        "total_count": len(contracts),
+        "contracts": [
+            {
+                "id": c.id,
+                "title": c.title,
+                "publication_date": c.publication_date,
+                "contract_type": c.contract_type,
+                "external_id": c.external_id
+            } for c in contracts
+        ]
+    }
+
+
+@router.delete("/clear-all")
+async def clear_all_contracts(session: AsyncSession = Depends(get_session)):
+    """Clear all contracts from database (for testing)"""
+    from sqlalchemy import delete
+    
+    # Delete all contracts
+    delete_stmt = delete(Contract)
+    result = await session.execute(delete_stmt)
+    await session.commit()
+    
+    return {
+        "message": f"Cleared {result.rowcount} contracts from database"
+    }
 
 
 @router.get("/stats/summary")

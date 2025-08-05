@@ -23,15 +23,21 @@ async def manual_crawl(
     background_tasks: BackgroundTasks
 ):
     """Manually trigger crawling for specific date range"""
-    background_tasks.add_task(
-        crawler_service.crawl_contracts,
-        crawl_request.date_from,
-        crawl_request.date_to
-    )
-    
-    return CrawlResponse(
-        message=f"Crawling initiated for {crawl_request.date_from} to {crawl_request.date_to}"
-    )
+    print(f"MANUAL CRAWL ENDPOINT CALLED: {crawl_request.date_from} to {crawl_request.date_to}")
+    try:
+        # Run synchronously for debugging
+        contracts_found = await crawler_service.crawl_contracts(
+            crawl_request.date_from,
+            crawl_request.date_to
+        )
+        
+        return CrawlResponse(
+            message=f"Crawling completed for {crawl_request.date_from} to {crawl_request.date_to}. Found {contracts_found} contracts."
+        )
+    except Exception as e:
+        return CrawlResponse(
+            message=f"Crawling failed: {str(e)}"
+        )
 
 
 @router.post("/crawl-today", response_model=CrawlResponse)
