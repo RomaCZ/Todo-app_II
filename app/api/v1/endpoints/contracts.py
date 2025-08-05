@@ -1,9 +1,10 @@
 import logging
 from datetime import date
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlmodel import select
+from pydantic import BaseModel
 
 from app.core.database import get_session
 from app.models.contract import Contract, ContractRead, ContractUpdate
@@ -143,3 +144,48 @@ async def get_contract_stats(
         "prace_contracts": prace_contracts,
         "sluzby_contracts": sluzby_contracts
     }
+
+
+class ContractFieldUpdate(BaseModel):
+    """Model for updating individual contract fields"""
+    description: Optional[str] = None  # Used as comment
+    title: Optional[str] = None
+    contracting_authority: Optional[str] = None
+    price_value: Optional[float] = None
+    bid_deadline: Optional[str] = None  # Date string that will be parsed
+    contract_type: Optional[str] = None
+    nuts_code: Optional[str] = None
+    supplier: Optional[str] = None
+    contact_person: Optional[str] = None
+    contact_email: Optional[str] = None
+    contact_phone: Optional[str] = None
+    processed: Optional[bool] = None
+
+
+@router.patch("/{contract_id}")
+async def update_contract_field(
+    contract_id: int,
+    field_update: ContractFieldUpdate,
+    session: AsyncSession = Depends(get_session)
+):
+    """Update specific fields of a contract (for manual processing interface)"""
+    
+    # Find the contract
+    query = select(Contract).where(Contract.id == contract_id)
+    result = await session.execute(query)
+    contract = result.scalar_one_or_none()
+    
+    if not contract:
+        raise HTTPException(status_code=404, detail="Contract not found")
+    
+    # Update fields that were provided
+    update_data = field_update.dict(exclude_unset=True)
+    for field, value in update_data.items():
+        if hasattr(contract, field):
+            setattr(contract, field, value)
+    
+    session.add(contract)
+    await session.commit()
+    await session.refresh(contract)
+    
+    return {"message": "Contract updated successfully", "contract_id": contract_id}

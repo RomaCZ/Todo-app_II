@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOCHTIEF - zakázky {{search_date}}</title>
+    <meta content="no-cache" http-equiv="Pragma">
+    <meta content="-1" http-equiv="Expires">
+    <style>
+        /* ------------- Page layout ------------ */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Calibri, Arial, sans-serif;
+            background: #f5f5f5;
+        }
+
+        #header {
+            background-color: rgba(233,233,244,1);
+            border: 1px solid gray;
+            font: normal 16px/1.5em helvetica, arial, sans-serif;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        #buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        #buttons button {
+            width: 90px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        #date {
+            font-weight: bold;
+        }
+
+        #counter {
+            width: 200px;
+            white-space: nowrap;
+        }
+
+        #content {
+            background: #ccc;
+            float: left;
+            width: 50%;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+
+        #content_inner {
+            background-color: rgba(233,233,244,1);
+            border: 1px solid gray;
+            margin: 0 auto;
+            position: relative;
+            width: 99%;
+            padding: 10px;
+        }
+
+        #left_panel {
+            background: #eee;
+            float: left;
+            font: normal 16px/1.5em helvetica, arial, sans-serif;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+            padding: 10px 0;
+            width: 25%;
+        }
+
+        #right_panel {
+            background: #ddd;
+            float: right;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+            padding: 10px 0;
+            width: 25%;
+        }
+
+        .inner {
+            font: 11.0pt Calibri, sans-serif;
+            padding: 10px;
+        }
+
+        .kraj {
+            margin-bottom: 10px;
+        }
+
+        /* ------------- Zakázka styling ------------ */
+        .zakazka {
+            border: 1px solid #999;
+            margin: 5px;
+            background: white;
+            display: block;
+        }
+
+        .menu {
+            background: #f0f0f0;
+            padding: 5px;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu span {
+            cursor: pointer;
+            padding: 2px 5px;
+            margin: 0 2px;
+        }
+
+        .pridat {
+            background: #ff6b6b;
+            color: white;
+            border-radius: 3px;
+        }
+
+        .pridat:hover {
+            background: #ff5252;
+        }
+
+        .zdroj, .debug {
+            background: #4ecdc4;
+            color: white;
+            border-radius: 3px;
+        }
+
+        .zdroj:hover, .debug:hover {
+            background: #26a69a;
+        }
+
+        .data {
+            padding: 10px;
+        }
+
+        .wrapper {
+            display: flex;
+            margin-bottom: 5px;
+            align-items: flex-start;
+        }
+
+        .wrapper.hidden_whole {
+            display: none;
+        }
+
+        .popis {
+            flex: 0 0 200px;
+            font-weight: bold;
+            padding-right: 10px;
+        }
+
+        .popis.missing {
+            color: #ff6b6b;
+        }
+
+        .popis.warning {
+            color: #ff9800;
+        }
+
+        .hodnota {
+            flex: 1;
+            padding: 2px 5px;
+            border: 1px solid #ddd;
+            background: white;
+            min-height: 20px;
+        }
+
+        .hodnota.price {
+            background: #e8f5e8;
+            font-weight: bold;
+        }
+
+        .hodnota.date {
+            background: #fff3e0;
+        }
+
+        .hodnota.nazev_vz {
+            background: #e3f2fd;
+        }
+
+        .hodnota.url a {
+            color: #1976d2;
+            text-decoration: none;
+        }
+
+        .hodnota.url a:hover {
+            text-decoration: underline;
+        }
+
+        .hodnota.komentar {
+            background: #fffde7;
+            min-height: 40px;
+        }
+
+        .zakazka_debug, .zakazka_zdroj {
+            background: #f5f5f5;
+            border-top: 1px solid #ccc;
+            padding: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        #debug_panel {
+            position: fixed;
+            top: 10%;
+            left: 10%;
+            right: 10%;
+            bottom: 10%;
+            background: white;
+            border: 2px solid #333;
+            z-index: 1000;
+            overflow: auto;
+            padding: 20px;
+        }
+
+        #footer {
+            background-color: rgba(233,233,244,1);
+            border: 1px solid gray;
+            clear: both;
+            overflow: hidden;
+            height: 30px;
+        }
+
+        .region-stats {
+            margin: 10px 0;
+            padding: 5px;
+            border-left: 3px solid #4ecdc4;
+            background: #f9f9f9;
+        }
+
+        .stats-number {
+            font-weight: bold;
+            color: #1976d2;
+        }
+    </style>
+</head>
+<body onload="on_load()">
+    <div id="header">
+        <span id="buttons">
+            <label onclick="hide_zakazky(this)" class="switch">
+                ↓ Skryj přidané
+                <input id="auto_hide" type="checkbox" checked="true">
+            </label>
+            <label onclick="hide_zakazky(this)" class="switch">
+                Skryj zakázky
+                <input id="zakazka_hide" type="checkbox">
+            </label>
+            <label onclick="hide_zakazky(this)" class="switch">
+                Skryj projektovky
+                <input id="projektovka_hide" type="checkbox">
+            </label>
+            <button onclick="select_content(this)">Mark Date</button>
+            <button onclick="show_debug()">Debug ☢</button>
+            <button onclick="resize(true)">Resize ⤇</button>
+            <button onclick="reload()">Reload ↻</button>
+            <button onclick="save_changes()">Uložit změny</button>
+        </span>
+        
+        <span id="date">HOCHTIEF - zakázky {{search_date}}</span>
+        <span id="counter">
+            Označeno <span id="counter_a">?</span> z <span id="counter_b">?</span> zakázek a z <span id="counter_c">?</span> projektovek.
+        </span>
+    </div>
+
+    <div id="left_panel">
+        <!-- Contracts will be loaded here -->
+    </div>
+
+    <div id="content">
+        <div id="content_inner">
+            <p>Vyberte zakázku z levého panelu pro zobrazení detailů.</p>
+        </div>
+    </div>
+
+    <div id="right_panel">
+        <div id="right_panel_inner" class="inner">
+            <!-- Region statistics will be loaded here -->
+        </div>
+    </div>
+
+    <div id="debug_panel" style="display: none;">
+        <h2>Debug Panel</h2>
+        <button onclick="hide_debug()">Zavřít</button>
+        <div id="debug_content"></div>
+    </div>
+
+    <div id="footer"></div>
+
+    <script>
+        "use strict";
+
+        let contracts = [];
+        let currentContract = null;
+
+        function on_load() {
+            loadContracts();
+            updateCounters();
+        }
+
+        async function loadContracts() {
+            try {
+                const response = await fetch('/api/v1/manual-processing/contract-data');
+                const data = await response.json();
+                contracts = data.contracts || [];
+                renderContracts();
+                updateRegionStats();
+                updateCounters();
+            } catch (error) {
+                console.error('Error loading contracts:', error);
+                alert('Chyba při načítání zakázek: ' + error.message);
+            }
+        }
+
+        function renderContracts() {
+            const leftPanel = document.getElementById('left_panel');
+            leftPanel.innerHTML = '';
+            
+            contracts.forEach(contract => {
+                const contractHtml = createContractHTML(contract);
+                leftPanel.appendChild(contractHtml);
+            });
+        }
+
+        function createContractHTML(contract) {
+            const zakazka = document.createElement('span');
+            zakazka.className = 'zakazka';
+            zakazka.id = `l_${contract.external_id || contract.id}`;
+            zakazka.style.display = 'block';
+
+            // Menu
+            const menu = document.createElement('div');
+            menu.className = 'menu';
+            
+            const evidenceNumber = document.createElement('span');
+            evidenceNumber.textContent = contract.external_id || contract.id;
+            menu.appendChild(evidenceNumber);
+
+            const addBtn = document.createElement('span');
+            addBtn.className = 'pridat';
+            addBtn.textContent = '✖';
+            addBtn.title = 'Přidat';
+            addBtn.onclick = () => toggleAdd(addBtn);
+            menu.appendChild(addBtn);
+
+            const sourceBtn = document.createElement('span');
+            sourceBtn.className = 'zdroj';
+            sourceBtn.textContent = '★';
+            sourceBtn.title = 'Zobraz zdroj';
+            sourceBtn.onclick = () => showSource(contract);
+            menu.appendChild(sourceBtn);
+
+            const debugBtn = document.createElement('span');
+            debugBtn.className = 'debug';
+            debugBtn.textContent = '✪';
+            debugBtn.title = 'Zobraz debug info';
+            debugBtn.onclick = () => showDebug(contract);
+            menu.appendChild(debugBtn);
+
+            zakazka.appendChild(menu);
+
+            // Data
+            const data = document.createElement('div');
+            data.className = 'data';
+
+            // Contract fields (using the format from the original zakazky_II_html.py)
+            const fields = [
+                {text: 'Evidenční číslo: ', key: 'evidencni_cislo'},
+                {text: 'Název VZ: ', key: 'nazev_vz', class: 'nazev_vz'},
+                {text: 'Zadavatel: ', key: 'zadavatel'},
+                {text: 'Předp. hodnota bez DPH: ', key: 'predp_hodnota_bez_dph', class: 'price'},
+                {text: 'Lhůta pro nabídky: ', key: 'lhuta_pro_nabidky', class: 'date'},
+                {text: 'Datum uveřejnění: ', key: 'datum_uverejneni'},
+                {text: 'Typ formuláře: ', key: 'typ_formulare'},
+                {text: 'Druh řízení: ', key: 'rizeni'},
+                {text: 'Druh zakázky: ', key: 'druh_zakazky'}
+            ];
+
+            fields.forEach(field => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'wrapper';
+
+                const popis = document.createElement('div');
+                popis.className = 'popis';
+                popis.textContent = field.text;
+                
+                const value = contract[field.key];
+                if (!value || value === '---' || value === 'Neuvedeno') {
+                    popis.className += ' missing';
+                }
+
+                const hodnota = document.createElement('div');
+                hodnota.className = 'hodnota' + (field.class ? ` ${field.class}` : '');
+                hodnota.contentEditable = true;
+                hodnota.textContent = value || 'Neuvedeno';
+                hodnota.onblur = () => updateContractField(contract.id, field.key, hodnota.textContent);
+
+                wrapper.appendChild(popis);
+                wrapper.appendChild(hodnota);
+                data.appendChild(wrapper);
+            });
+
+            // URL
+            if (contract.url) {
+                const urlWrapper = document.createElement('div');
+                urlWrapper.className = 'wrapper';
+                
+                const urlPopis = document.createElement('div');
+                urlPopis.className = 'popis';
+                urlPopis.textContent = 'Formulář: ';
+                
+                const urlHodnota = document.createElement('div');
+                urlHodnota.className = 'hodnota url';
+                
+                const link = document.createElement('a');
+                link.href = contract.url;
+                link.textContent = contract.url;
+                link.target = '_blank';
+                
+                urlHodnota.appendChild(link);
+                urlWrapper.appendChild(urlPopis);
+                urlWrapper.appendChild(urlHodnota);
+                data.appendChild(urlWrapper);
+            }
+
+            // Comment
+            const komentarWrapper = document.createElement('div');
+            komentarWrapper.className = 'wrapper';
+            
+            const komentarPopis = document.createElement('div');
+            komentarPopis.className = 'popis';
+            komentarPopis.textContent = 'Komentář: ';
+            
+            const komentarHodnota = document.createElement('div');
+            komentarHodnota.className = 'hodnota komentar';
+            komentarHodnota.contentEditable = true;
+            komentarHodnota.textContent = contract.komentar || 'Neuvedeno';
+            komentarHodnota.onblur = () => updateContractField(contract.id, 'description', komentarHodnota.textContent);
+            
+            komentarWrapper.appendChild(komentarPopis);
+            komentarWrapper.appendChild(komentarHodnota);
+            data.appendChild(komentarWrapper);
+
+            zakazka.appendChild(data);
+
+            // Delimiter
+            const delimiter = document.createElement('div');
+            const delimiterSpan = document.createElement('span');
+            const br = document.createElement('br');
+            delimiterSpan.appendChild(br);
+            delimiter.appendChild(delimiterSpan);
+            data.appendChild(delimiter);
+
+            // Add click handler to show contract details
+            zakazka.onclick = (e) => {
+                if (e.target.closest('.menu')) return; // Don't trigger on menu clicks
+                showContractDetails(contract);
+            };
+
+            return zakazka;
+        }
+
+        function toggleAdd(button) {
+            if (button.title === 'Přidat') {
+                button.title = 'Odebrat';
+                button.textContent = '✓';
+                button.style.background = '#4caf50';
+                hide_zakazky(button);
+            } else {
+                button.title = 'Přidat';
+                button.textContent = '✖';
+                button.style.background = '#ff6b6b';
+            }
+            updateCounters();
+        }
+
+        function showContractDetails(contract) {
+            currentContract = contract;
+            const contentInner = document.getElementById('content_inner');
+            contentInner.innerHTML = `
+                <h2>${contract.nazev_vz || 'Název nenalezen'}</h2>
+                <p><strong>Evidenční číslo:</strong> ${contract.evidencni_cislo || contract.id}</p>
+                <p><strong>Zadavatel:</strong> ${contract.zadavatel || 'Neuvedeno'}</p>
+                <p><strong>Předpokládaná hodnota:</strong> ${contract.predp_hodnota_bez_dph || 'Neuvedeno'}</p>
+                <p><strong>Lhůta pro nabídky:</strong> ${contract.lhuta_pro_nabidky || 'Neuvedeno'}</p>
+                <p><strong>Datum uveřejnění:</strong> ${contract.datum_uverejneni || 'Neuvedeno'}</p>
+                <p><strong>Typ formuláře:</strong> ${contract.typ_formulare || 'Neuvedeno'}</p>
+                <p><strong>Druh řízení:</strong> ${contract.rizeni || 'Neuvedeno'}</p>
+                <p><strong>Druh zakázky:</strong> ${contract.druh_zakazky || 'Neuvedeno'}</p>
+                <p><strong>Komentář:</strong> ${contract.komentar || 'Žádný komentář'}</p>
+                ${contract.url ? `<p><strong>Zdroj:</strong> <a href="${contract.url}" target="_blank">${contract.url}</a></p>` : ''}
+            `;
+        }
+
+        function showSource(contract) {
+            if (contract.url) {
+                window.open(contract.url, '_blank');
+            }
+        }
+
+        function showDebug(contract) {
+            const debugContent = document.getElementById('debug_content');
+            debugContent.innerHTML = `
+                <h3>Debug informace pro zakázku ${contract.external_id || contract.id}</h3>
+                <pre>${JSON.stringify(contract, null, 2)}</pre>
+            `;
+            document.getElementById('debug_panel').style.display = 'block';
+        }
+
+        function show_debug() {
+            const debugContent = document.getElementById('debug_content');
+            debugContent.innerHTML = `
+                <h3>Všechny zakázky (${contracts.length})</h3>
+                <pre>${JSON.stringify(contracts, null, 2)}</pre>
+            `;
+            document.getElementById('debug_panel').style.display = 'block';
+        }
+
+        function hide_debug() {
+            document.getElementById('debug_panel').style.display = 'none';
+        }
+
+        function hide_zakazky(event) {
+            const button = event.getElementsByTagName("input");
+            
+            if (!button.length) { // bylo spuštěno tlačítkem přidat na zakázce
+                if (document.getElementById("auto_hide").checked) {
+                    event.parentNode.parentNode.style.display = "none";
+                }
+                return;
+            }
+
+            const button_hide_pridane = document.getElementById("auto_hide").checked;
+            const button_hide_zakazka = document.getElementById("zakazka_hide").checked;
+            const button_hide_projektovka = document.getElementById("projektovka_hide").checked;
+            
+            const elements = document.getElementById("left_panel").getElementsByClassName("zakazka");
+            for (let i = 0; i < elements.length; i++) {
+                const je_pridano = elements[i].getElementsByClassName("pridat")[0].title !== "Přidat";
+                
+                if ((button[0].id === "auto_hide" && button_hide_pridane && je_pridano) ||
+                    button_hide_zakazka) {
+                    elements[i].style.display = "none";
+                } else if (!button_hide_zakazka) {
+                    if (button_hide_pridane && je_pridano) {
+                        continue;
+                    }
+                    elements[i].style.display = "block";
+                }
+            }
+        }
+
+        function updateCounters() {
+            const elements = document.getElementById("left_panel").getElementsByClassName("zakazka");
+            let pridane = 0;
+            let celkem = elements.length;
+            
+            for (let i = 0; i < elements.length; i++) {
+                if (elements[i].getElementsByClassName("pridat")[0].title !== "Přidat") {
+                    pridane++;
+                }
+            }
+            
+            document.getElementById("counter_a").textContent = pridane;
+            document.getElementById("counter_b").textContent = celkem;
+            document.getElementById("counter_c").textContent = "0"; // projektovky
+        }
+
+        function updateRegionStats() {
+            // Implementation for region statistics
+            const rightPanel = document.getElementById('right_panel_inner');
+            rightPanel.innerHTML = `
+                <div class="region-stats">
+                    <strong>Celkem zakázek:</strong> <span class="stats-number">${contracts.length}</span>
+                </div>
+                <div class="region-stats">
+                    <strong>Označeno:</strong> <span class="stats-number" id="marked-count">0</span>
+                </div>
+            `;
+        }
+
+        async function updateContractField(contractId, field, value) {
+            try {
+                const response = await fetch(`/api/v1/contracts/${contractId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({[field]: value})
+                });
+                
+                if (!response.ok) {
+                    console.error('Failed to update contract field');
+                }
+            } catch (error) {
+                console.error('Error updating contract field:', error);
+            }
+        }
+
+        async function save_changes() {
+            alert('Změny jsou automaticky ukládány při úpravě polí.');
+        }
+
+        function select_content(button) {
+            // Implementation for marking dates
+        }
+
+        function resize(expand) {
+            // Implementation for resizing panels
+        }
+
+        function reload() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>
